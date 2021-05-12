@@ -3,21 +3,38 @@ import styled from 'styled-components';
 
 import { COLORS } from '../../constants';
 import Icon from '../Icon';
-import { getDisplayedValue } from './Select.helpers';
+import { getDisplayedValue, uniqueId } from './Select.helpers';
 
 const Select = ({ label, value, onChange, children }) => {
   const displayedValue = getDisplayedValue(value, children);
-
+  const id = uniqueId();
+  
   return (
-    <Wrapper>
-      <NativeSelect value={value} onChange={onChange}>
-        {children} 
-      </NativeSelect>
-      <span className="value">{displayedValue}</span>
-      <Icon className="icon" id="chevron-down" size="24" strokeWidth="2"></Icon>
-    </Wrapper>
+    <>
+      <Label htmlFor={id}>
+        {label}
+      </Label>
+      <Wrapper>
+        <NativeSelect id={id} value={value} onChange={onChange}>
+          {children} 
+        </NativeSelect>
+        <span className="value">{displayedValue}</span>
+        <Icon className="icon" id="chevron-down" size="24" strokeWidth="2"></Icon>
+      </Wrapper>
+    </>
   );
 };
+
+const Label = styled.label`
+  display: block;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: ${COLORS.black};
+  
+  & + * {
+    margin-top: 8px;
+  }
+`;
 
 const Wrapper = styled.div`
   display: inline-block;
