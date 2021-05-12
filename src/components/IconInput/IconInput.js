@@ -5,7 +5,6 @@ import { COLORS } from '../../constants';
 
 import Icon from '../Icon';
 import VisuallyHidden from '../VisuallyHidden';
-import { uniqueId } from '../../uniqueid';
 
 /*
  * DISCLAIMER: I do not endorse this style of input, it has accessibility issues.
@@ -41,7 +40,6 @@ const SIZES = {
 
 const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
   const styles = SIZES[size];
-  const id = uniqueId();
 
   if (!styles) {
     throw new Error(`Unknown size passed to IconInput: ${size}`);
@@ -49,21 +47,20 @@ const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
 
   return (
     <Wrapper style={styles} width={width}>
-      <VisuallyHidden>
-        <label for={id}>{label}</label>
-      </VisuallyHidden>
+      <VisuallyHidden>{label}</VisuallyHidden>
       <Icon
         className="icon"
         id={icon}
         size={size === 'large' ? 24 : 16}
         strokeWidth={size === 'large' && 2}
       ></Icon>
-      <NativeInput id={id} placeholder={placeholder}></NativeInput>
+      <NativeInput placeholder={placeholder}></NativeInput>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.label`
+  display: block;
   position: relative;
   width: ${(props) => props.width + 'px'};
   border-bottom: var(--input-line-thickness) solid ${COLORS.black};
