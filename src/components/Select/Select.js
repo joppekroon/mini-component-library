@@ -15,11 +15,11 @@ const Select = ({ label, value, onChange, children }) => {
         {label}
       </Label>
       <Wrapper>
+        {displayedValue}
+        <Icon className="icon" id="chevron-down" size="24" strokeWidth="2"></Icon>
         <NativeSelect id={id} value={value} onChange={onChange}>
           {children} 
         </NativeSelect>
-        {displayedValue}
-        <Icon className="icon" id="chevron-down" size="24" strokeWidth="2"></Icon>
       </Wrapper>
     </>
   );
