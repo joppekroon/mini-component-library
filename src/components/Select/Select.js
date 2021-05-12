@@ -18,7 +18,7 @@ const Select = ({ label, value, onChange, children }) => {
         <NativeSelect id={id} value={value} onChange={onChange}>
           {children} 
         </NativeSelect>
-        <span className="value">{displayedValue}</span>
+        {displayedValue}
         <Icon className="icon" id="chevron-down" size="24" strokeWidth="2"></Icon>
       </Wrapper>
     </>
@@ -28,7 +28,7 @@ const Select = ({ label, value, onChange, children }) => {
 const Label = styled.label`
   display: block;
   font-size: 1.25rem;
-  line-height: 1.5;
+  line-height: 1.2;
   color: ${COLORS.black};
   
   & + * {
@@ -37,10 +37,14 @@ const Label = styled.label`
 `;
 
 const Wrapper = styled.div`
-  display: inline-block;
   position: relative;
   
-  padding: 8px 16px 9px 16px;
+  width: max-content;
+  
+  font-size: 1rem;
+  line-height: 1.2;
+  
+  padding: 12px 52px 12px 16px;
   border-radius: 8px;
   background-color: ${COLORS.transparentGray15};
   
@@ -55,14 +59,13 @@ const Wrapper = styled.div`
   }
   
   .icon {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 24px;
-    margin-top: 2px;
-  }
-  
-  .value {
-    vertical-align: middle;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: 0;
+    width: 24px;
+    height: 24px;
+    margin: auto;
   }
 `;
 
