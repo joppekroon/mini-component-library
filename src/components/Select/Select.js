@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 import { COLORS } from '../../constants';
 import Icon from '../Icon';
-import { getDisplayedValue, uniqueId } from './Select.helpers';
+import { getDisplayedValue } from './Select.helpers';
+import { uniqueId } from '../../uniqueid';
 
 const Select = ({ label, value, onChange, children }) => {
   const displayedValue = getDisplayedValue(value, children);
