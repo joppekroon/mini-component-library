@@ -29,13 +29,13 @@ const SIZES = {
     '--input-padding': '4px 0 3px 24px',
     '--input-line-thickness': '1px',
     '--input-font-size': 14,
-    '--input-line-height': 16,
+    '--input-height': 24,
   },
   large: {
     '--input-padding': '8px 0 5px 36px',
     '--input-line-thickness': '2px',
     '--input-font-size': 18,
-    '--input-line-height': 21,
+    '--input-height': 36,
   },
 };
 
@@ -96,7 +96,7 @@ const NativeInput = styled.input`
 
   width: 100%;
   font-size: calc((var(--input-font-size) / 16) * 1rem);
-  line-height: calc((var(--input-line-height) / 16) * 1rem);
+  height: calc((var(--input-height) / 16) * 1rem);
 
   &:focus {
     outline-offset: 2px;
