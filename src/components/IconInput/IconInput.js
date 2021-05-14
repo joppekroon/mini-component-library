@@ -5,6 +5,7 @@ import { COLORS } from '../../constants';
 
 import Icon from '../Icon';
 import VisuallyHidden from '../VisuallyHidden';
+import { uniqueId } from "../../uniqueid";
 
 /*
  * DISCLAIMER: I do not endorse this style of input, it has accessibility issues.
@@ -25,7 +26,7 @@ import VisuallyHidden from '../VisuallyHidden';
 
 const SIZES = {
   small: {
-    '--input-padding': '4px 0 2px 24px',
+    '--input-padding': '4px 0 3px 24px',
     '--input-line-thickness': '1px',
     '--input-font-size': 14,
     '--input-line-height': 16,
@@ -40,6 +41,7 @@ const SIZES = {
 
 const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
   const styles = SIZES[size];
+  const inputId = uniqueId();
 
   if (!styles) {
     throw new Error(`Unknown size passed to IconInput: ${size}`);
@@ -47,24 +49,23 @@ const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
 
   return (
     <Wrapper style={styles} width={width}>
-      <VisuallyHidden>{label}</VisuallyHidden>
+      {/* Probably better to make hiding the label a non-default option. */}
+      <VisuallyHidden><label for={inputId}>{label}</label></VisuallyHidden>
       <Icon
         className="icon"
         id={icon}
         size={size === 'large' ? 24 : 16}
         strokeWidth={size === 'large' && 2}
       ></Icon>
-      <NativeInput placeholder={placeholder}></NativeInput>
+      <NativeInput id={inputId} placeholder={placeholder}></NativeInput>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.label`
+const Wrapper = styled.div`
   display: block;
   position: relative;
   width: ${(props) => props.width + 'px'};
-  border-bottom: var(--input-line-thickness) solid ${COLORS.black};
-  padding: var(--input-padding);
 
   color: ${COLORS.gray700};
 
@@ -73,17 +74,15 @@ const Wrapper = styled.label`
     top: 0;
     bottom: 0;
     left: 0;
-
+    
     margin: auto;
+    
+    /* Allowing click through to the input */
+    pointer-events: none;
   }
 
   &:hover {
     color: ${COLORS.black};
-  }
-
-  &:focus-within {
-    outline: auto;
-    outline-offset: 2px;
   }
 `;
 
@@ -91,12 +90,17 @@ const NativeInput = styled.input`
   padding: 0;
   margin: 0;
   border: 0;
-
-  outline: none;
+  
+  padding: var(--input-padding);
+  border-bottom: var(--input-line-thickness) solid ${COLORS.black};
 
   width: 100%;
   font-size: calc((var(--input-font-size) / 16) * 1rem);
   line-height: calc((var(--input-line-height) / 16) * 1rem);
+
+  &:focus {
+    outline-offset: 2px;
+  }
 
   &:not(:placeholder-shown) {
     color: inherit;
