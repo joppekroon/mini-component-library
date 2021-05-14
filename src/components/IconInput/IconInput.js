@@ -26,16 +26,16 @@ import { uniqueId } from "../../uniqueid";
 
 const SIZES = {
   small: {
-    '--input-padding': '4px 0 3px 24px',
-    '--input-line-thickness': '1px',
-    '--input-font-size': 14,
-    '--input-height': 24,
+    height: 24,
+    iconSize: 16,
+    fontSize: 14,
+    lineThickness: 1,
   },
   large: {
-    '--input-padding': '8px 0 5px 36px',
-    '--input-line-thickness': '2px',
-    '--input-font-size': 18,
-    '--input-height': 36,
+    height: 36,
+    iconSize: 24,
+    fontSize: 18,
+    lineThickness: 2,
   },
 };
 
@@ -48,16 +48,21 @@ const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
   }
 
   return (
-    <Wrapper style={styles} width={width}>
+    <Wrapper>
       {/* Probably better to make hiding the label a non-default option. */}
       <VisuallyHidden><label for={inputId}>{label}</label></VisuallyHidden>
       <Icon
         className="icon"
         id={icon}
-        size={size === 'large' ? 24 : 16}
-        strokeWidth={size === 'large' && 2}
+        size={styles.iconSize}
+        strokeWidth={styles.lineThickness}
       ></Icon>
-      <NativeInput id={inputId} placeholder={placeholder}></NativeInput>
+      <NativeInput id={inputId} placeholder={placeholder} style={{
+        '--input-width': width + 'px', 
+        '--input-height': styles.height / 16 + 'rem',
+        '--input-font-size': styles.fontSize / 16 + 'rem',
+        '--input-line-thickness': styles.lineThickness + 'px', 
+      }}></NativeInput>
     </Wrapper>
   );
 };
@@ -65,7 +70,6 @@ const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
 const Wrapper = styled.div`
   display: block;
   position: relative;
-  width: ${(props) => props.width + 'px'};
 
   color: ${COLORS.gray700};
 
@@ -91,12 +95,12 @@ const NativeInput = styled.input`
   margin: 0;
   border: 0;
   
-  padding: var(--input-padding);
+  padding-left: var(--input-height);
   border-bottom: var(--input-line-thickness) solid ${COLORS.black};
 
-  width: 100%;
-  font-size: calc((var(--input-font-size) / 16) * 1rem);
-  height: calc((var(--input-height) / 16) * 1rem);
+  width: var(--input-width);
+  font-size: var(--input-font-size);
+  height: var(--input-height);
 
   &:focus {
     outline-offset: 2px;
